@@ -1,0 +1,9 @@
+#directories
+.pytest_cache/
+__pycache__/
+**/*.egg-info
+.vscode/
+
+
+#files
+**/*.ipynb
