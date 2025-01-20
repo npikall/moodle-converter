@@ -25,7 +25,6 @@ def tokens_to_power_operator(tokens: list[str]) -> list[str]:
     return tokens
 
 
-
 def construct_power(power: str) -> str:
     """
     Convert a power operation 'base^exponent' into 'pow(base, exponent)'.
@@ -68,24 +67,26 @@ def untokenize_formula(tokens: list[str]) -> str:
     formula = formula.replace(" ", "")
     return formula
 
+
 def swap_variables(tokens: str, variable_map: dict[str, str]) -> str:
     for var, mvar in variable_map.items():
-            for idx, token in enumerate(tokens):
-                if token == var:  # Replace only exact matches
-                    tokens[idx] = f"{{{mvar}}}"
+        for idx, token in enumerate(tokens):
+            if token == var:  # Replace only exact matches
+                tokens[idx] = f"{{{mvar}}}"
     return tokens
+
 
 def swap_constants(tokens: str, constants_map: dict[str, str]) -> str:
     for const, mconst in constants_map.items():
-            for idx, token in enumerate(tokens):
-                if token == const:  # Replace only exact matches
-                    mconst = mconst.replace("_", "")  # Remove underscores
-                    if "e" in mconst:  # Handle scientific notation
-                        mantissa, exponent = mconst.split("e")
-                        mconst = f"{mantissa} * pow(10, {exponent})"
-                    tokens[idx] = (
-                        mconst  # Replace the token with the formatted constant
-                    )
+        for idx, token in enumerate(tokens):
+            if token == const:  # Replace only exact matches
+                mconst = mconst.replace("_", "")  # Remove underscores
+                if "e" in mconst:  # Handle scientific notation
+                    mantissa, exponent = mconst.split("e")
+                    mconst = f"{mantissa} * pow(10, {exponent})"
+                tokens[idx] = (
+                    mconst  # Replace the token with the formatted constant
+                )
     return tokens
 
 
@@ -100,14 +101,18 @@ def python_to_moodle(
     mformula = remove_package_prefixes(mformula)
 
     # Tokenize, convert to scientific notation and untokenize
-    mformula = harmonize_whitespaces(mformula, ops=["+", "-", "*", "/", "(", ")"])
+    mformula = harmonize_whitespaces(
+        mformula, ops=["+", "-", "*", "/", "(", ")"]
+    )
     mformula = tokenize_formula(mformula)
     mformula = tokens_to_power_operator(mformula)
     mformula = token_to_power_operator(mformula)
     mformula = untokenize_formula(mformula)
 
     # Tokenize, replace variables and constants and untokenize
-    mformula = harmonize_whitespaces(mformula, ops=["+", "-", "*", "/", "(", ")"])
+    mformula = harmonize_whitespaces(
+        mformula, ops=["+", "-", "*", "/", "(", ")", ","]
+    )
     mformula = tokenize_formula(mformula)
     if variable_map:
         mformula = swap_variables(mformula, variable_map)
