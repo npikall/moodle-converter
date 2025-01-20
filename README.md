@@ -1,5 +1,7 @@
 # Moodle Converter
 
+![Static Badge](https://img.shields.io/badge/build-in%20Progress-yellow)
+
 This package aims to build a bridge between pythonic calculations and moodle 
 formulas. It is designed to be used in a Jupyter Notebook environment.
 The Idea is that you can use python to make some calculations and then use
