@@ -16,7 +16,7 @@ const = {
     "lam": "23",
 }
 variables = {
-    "c": "c",
+    "x": "x",
 }
 
 moodle = mc.python_to_moodle(eq, variables, const)
